@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-east-1"
+  region = var.aws_config.region
 }
 
 variable "vpc_cidr_block" {
@@ -40,13 +40,12 @@ variable "aws_config" {
 
 resource "aws_vpc" "project_one_vpc" {
   tags       = { "Name" : "${var.env.prefix}_vpc" }
-  cidr_block = var.vpc_cidr_block
+  cidr_block = "${var.aws_config.cidr_block.vpc[0]}/${var.aws_config.cidr_block.vpc[1]}"
 }
-
 
 resource "aws_subnet" "project_one_subnet_1" {
   tags              = { "Name" : "${var.env.prefix}_subnet_1" }
   vpc_id            = aws_vpc.project_one_vpc.id
-  cidr_block        = "10.0.0.0/24"
-  availability_zone = var.az
+  cidr_block        = "${var.aws_config.cidr_block.subnet[0]}/${var.aws_config.cidr_block.subnet[1]}"
+  availability_zone = "${var.aws_config.region}${var.aws_config.az}"
 }
