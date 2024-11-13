@@ -4,6 +4,7 @@ provider "aws" {
 
 variable "subnet_cidr_block" {
   description = "cidr block value for subnet"
+  default     = "10.0.0.0/24"
 }
 
 resource "aws_vpc" "devops-vpc" {
