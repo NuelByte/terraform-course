@@ -25,3 +25,9 @@ variable "env" {
     prefix = "dev"
   }
 }
+
+
+resource "aws_vpc" "project_one_vpc" {
+  tags       = { "Name" : "${var.env.prefix}_vpc" }
+  cidr_block = var.vpc_cidr_block
+}
