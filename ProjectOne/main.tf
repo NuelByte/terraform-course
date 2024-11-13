@@ -26,6 +26,18 @@ variable "env" {
   }
 }
 
+variable "aws_config" {
+  description = "Required configuration values"
+  type = object({
+    region = string
+    az     = string
+    cidr_block = object({
+      vpc    = list(string)
+      subnet = list(string)
+    })
+  })
+}
+
 resource "aws_vpc" "project_one_vpc" {
   tags       = { "Name" : "${var.env.prefix}_vpc" }
   cidr_block = var.vpc_cidr_block
