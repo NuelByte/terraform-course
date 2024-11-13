@@ -12,3 +12,15 @@ resource "aws_subnet" "devops-subnet" {
   availability_zone = "us-east-1a"
   tags              = { "Name" : "demo-subnet" }
 }
+
+data "aws_vpc" "already_exisiting_vpc" {
+  default = true
+  state   = "available"
+}
+
+resource "aws_subnet" "devops-subnet-2" {
+  tags              = { "Name" : "devops-subnet-2" }
+  vpc_id            = data.aws_vpc.already_exisiting_vpc.id
+  cidr_block        = "172.31.96.0/20"
+  availability_zone = "us-east-1a"
+}
