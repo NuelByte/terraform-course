@@ -26,8 +26,15 @@ variable "env" {
   }
 }
 
-
 resource "aws_vpc" "project_one_vpc" {
   tags       = { "Name" : "${var.env.prefix}_vpc" }
   cidr_block = var.vpc_cidr_block
+}
+
+
+resource "aws_subnet" "project_one_subnet_1" {
+  tags              = { "Name" : "${var.env.prefix}_subnet_1" }
+  vpc_id            = aws_vpc.project_one_vpc.id
+  cidr_block        = "10.0.0.0/24"
+  availability_zone = var.az
 }
