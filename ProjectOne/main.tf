@@ -13,3 +13,15 @@ variable "subnet_cidr_block" {
 variable "az" {
   description = "Availability zone where subnet would be created"
 }
+
+variable "env" {
+  description = "deployment environment details"
+  type = object({
+    name   = string
+    prefix = string
+  })
+  default = {
+    name   = "development"
+    prefix = "dev"
+  }
+}
