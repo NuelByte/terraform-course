@@ -63,3 +63,8 @@ resource "aws_internet_gateway" "project_one_igw" {
   vpc_id = aws_vpc.project_one_vpc.id
   tags   = { "Name" : "${var.env.prefix}_igw" }
 }
+
+resource "aws_route_table_association" "project-one-rta" {
+  subnet_id = aws_subnet.project_one_subnet_1.id
+  route_table_id = aws_route_table.project_one_route_table.id
+}
