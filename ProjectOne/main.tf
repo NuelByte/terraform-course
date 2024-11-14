@@ -49,3 +49,11 @@ resource "aws_subnet" "project_one_subnet_1" {
   cidr_block        = "${var.aws_config.cidr_block.subnet[0]}/${var.aws_config.cidr_block.subnet[1]}"
   availability_zone = "${var.aws_config.region}${var.aws_config.az}"
 }
+
+resource "aws_route_table" "project_one_route_table" {
+  vpc_id = aws_vpc.project_one_vpc.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = "we don't have one yet"
+  }
+}
