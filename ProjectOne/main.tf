@@ -56,8 +56,10 @@ resource "aws_route_table" "project_one_route_table" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.project_one_igw.id
   }
+  tags       = { "Name" : "${var.env.prefix}_rtb" }
 }
 
 resource "aws_internet_gateway" "project_one_igw" {
   vpc_id = aws_vpc.project_one_vpc.id
+  tags       = { "Name" : "${var.env.prefix}_igw" }
 }
