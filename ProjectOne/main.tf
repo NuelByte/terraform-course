@@ -147,11 +147,12 @@ resource "aws_instance" "project_one_server" {
   }
 
   provisioner "remote-exec" {
-    inline = [
-        "#!/bin/bash",
-        "sudo yum update -y",
-        "echo 'I am awesome' > ~/readme.txt",
-      ]
+    # inline = [
+    #     "#!/bin/bash",
+    #     "sudo yum update -y",
+    #     "echo 'I am awesome' > ~/readme.txt",
+    #   ]
+    script = "entry-point.sh"
     }
 }
 
