@@ -77,3 +77,20 @@ resource "aws_route_table_association" "project-one-rta" {
 #   }
 #   tags = { "Name" : "${var.env.prefix}_main_rtb" }
 # }
+
+resource "aws_security_group" "project_one_sg" {
+  name = "${var.env.prefix}_sec_grp"
+  vpc_id = aws_vpc.project_one_vpc.id
+  ingress {
+    from_port = 22
+    to_port = 22
+    protocol = "tcp"
+    cidr_blocks = var.allowed_ips
+  }
+}
+
+variable "allowed_ips" {
+  type = list(string)
+  description = "Allowed IPs for aws_security_group"
+  default = ["0.0.0.0/0"]
+}
