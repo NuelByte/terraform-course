@@ -134,7 +134,7 @@ resource "aws_instance" "project_one_server" {
   vpc_security_group_ids      = [aws_security_group.project_one_sg.id]
   availability_zone           = "${var.aws_config.region}${var.aws_config.az}"
   associate_public_ip_address = true
-  key_name                    = "devops-server"
+  key_name                    = aws_key_pair.project_one_key_pair.key_name
   tags = {
     Name = "${var.env.prefix}_nginx_web_server"
   }
@@ -148,4 +148,13 @@ variable "instance_type" {
 
 output "ec_ip_address" {
   value = aws_instance.project_one_server.public_ip
+}
+
+resource "aws_key_pair" "project_one_key_pair" {
+  key_name = "${var.env.prefix}_key_pair"
+  public_key = file(var.public_key_location)
+}
+
+variable "public_key_location" {
+  description = "Path to public key for configuring SSH access"
 }
