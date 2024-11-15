@@ -5,4 +5,6 @@ sudo systemctl start docker
 
 sudo usermod -aG docker ec2-user
 
-docker run -p 8080:80 -d nginx
+sudo usermod -aG docker ec2-user
+
+sudo docker run -p 8080:80 -d nginx
