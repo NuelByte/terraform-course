@@ -79,32 +79,33 @@ resource "aws_route_table_association" "project-one-rta" {
 # }
 
 resource "aws_security_group" "project_one_sg" {
-  name = "${var.env.prefix}_sec_grp"
+  name   = "${var.env.prefix}_sec_grp"
   vpc_id = aws_vpc.project_one_vpc.id
   ingress {
-    from_port = 22
-    to_port = 22
-    protocol = "tcp"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
     cidr_blocks = var.allowed_ips
   }
 
   ingress {
-    from_port = 8080
-    to_port = 8080
-    protocol = "tcp"
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
   egress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
     prefix_list_ids = []
   }
+  tags = { "Name" : "${var.env.prefix}_sg" }
 }
 
 variable "allowed_ips" {
-  type = list(string)
+  type        = list(string)
   description = "Allowed IPs for aws_security_group"
-  default = ["0.0.0.0/0"]
+  default     = ["0.0.0.0/0"]
 }
