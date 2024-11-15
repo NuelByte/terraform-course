@@ -138,14 +138,7 @@ resource "aws_instance" "project_one_server" {
   tags = {
     Name = "${var.env.prefix}_nginx_web_server"
   }
-  user_data = <<EOF
-                #!/bin/bash
-                sudo yum update -y && sudo yum install -y docker
-                sudo systemctl start docker
-                sudo usermod -aG docker ec2-user
-                sudo systemctl restart docker
-                docker run -p 8080:80 -d nginx
-                EOF
+  user_data = file("entry-point.sh")
 }
 
 variable "instance_type" {
