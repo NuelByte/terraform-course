@@ -138,7 +138,21 @@ resource "aws_instance" "project_one_server" {
   tags = {
     Name = "${var.env.prefix}_nginx_web_server"
   }
-  user_data = file("entry-point.sh")
+  # user_data = file("entry-point.sh")
+  connection {
+    type = "ssh"
+    host = self.public_ip
+    user = "ec2-user"
+    private_key = file(var.private_key_location)
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+        "#!/bin/bash",
+        "sudo yum update -y",
+        "echo 'I am awesome' > ~/readme.txt",
+      ]
+    }
 }
 
 variable "instance_type" {
@@ -158,4 +172,7 @@ resource "aws_key_pair" "project_one_key_pair" {
 
 variable "public_key_location" {
   description = "Path to public key for configuring SSH access"
+}
+variable "private_key_location" {
+  description = "Path to private key for configuring instance using remote-exec"
 }

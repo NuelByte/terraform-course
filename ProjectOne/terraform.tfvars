@@ -19,3 +19,4 @@ aws_config = {
 allowed_ips = ["102.89.0.0/16"]
 
 public_key_location = "~/.ssh/id_rsa.pub"
+private_key_location = "~/.ssh/id_rsa"
