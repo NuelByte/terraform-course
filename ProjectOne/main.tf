@@ -140,9 +140,9 @@ resource "aws_instance" "project_one_server" {
   }
   # user_data = file("entry-point.sh")
   connection {
-    type = "ssh"
-    host = self.public_ip
-    user = "ec2-user"
+    type        = "ssh"
+    host        = self.public_ip
+    user        = "ec2-user"
     private_key = file(var.private_key_location)
   }
 
@@ -153,7 +153,10 @@ resource "aws_instance" "project_one_server" {
     #     "echo 'I am awesome' > ~/readme.txt",
     #   ]
     script = "entry-point.sh"
-    }
+  }
+  provisioner "local-exec" {
+    command = "echo ${self.public_ip} >> server_ips.txt"
+  }
 }
 
 variable "instance_type" {
@@ -167,7 +170,7 @@ output "ec_ip_address" {
 }
 
 resource "aws_key_pair" "project_one_key_pair" {
-  key_name = "${var.env.prefix}_key_pair"
+  key_name   = "${var.env.prefix}_key_pair"
   public_key = file(var.public_key_location)
 }
 

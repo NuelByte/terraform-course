@@ -7,4 +7,4 @@ sudo usermod -aG docker ec2-user
 
 sudo usermod -aG docker ec2-user
 
-sudo docker run -p 8080:80 -d nginx
+sudo docker run -p 8080:80 -d emiwest/superb-compose:1.0
