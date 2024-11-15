@@ -109,3 +109,20 @@ variable "allowed_ips" {
   description = "Allowed IPs for aws_security_group"
   default     = ["0.0.0.0/0"]
 }
+
+output "aws_ami" {
+  value = data.aws_ami.latest_amazon_linux
+}
+
+data "aws_ami" "latest_amazon_linux" {
+  most_recent = true
+  owners      = ["amazon"]
+  filter {
+    name   = "description"
+    values = ["Amazon Linux*AMI*", ]
+  }
+  filter {
+    name   = "name"
+    values = ["amzn2-ami-kernel*-hvm-*-x86_64-gp2"]
+  }
+}
