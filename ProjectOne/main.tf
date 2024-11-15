@@ -110,9 +110,9 @@ variable "allowed_ips" {
   default     = ["0.0.0.0/0"]
 }
 
-output "aws_ami" {
-  value = data.aws_ami.latest_amazon_linux
-}
+# output "aws_ami" {
+#   value = data.aws_ami.latest_amazon_linux
+# }
 
 data "aws_ami" "latest_amazon_linux" {
   most_recent = true
@@ -125,4 +125,27 @@ data "aws_ami" "latest_amazon_linux" {
     name   = "name"
     values = ["amzn2-ami-kernel*-hvm-*-x86_64-gp2"]
   }
+}
+
+resource "aws_instance" "project_one_server" {
+  ami                         = data.aws_ami.latest_amazon_linux.id
+  instance_type               = var.instance_type
+  subnet_id                   = aws_subnet.project_one_subnet_1.id
+  vpc_security_group_ids      = [aws_security_group.project_one_sg.id]
+  availability_zone           = "${var.aws_config.region}${var.aws_config.az}"
+  associate_public_ip_address = true
+  key_name                    = "devops-server"
+  tags = {
+    Name = "${var.env.prefix}_nginx_web_server"
+  }
+}
+
+variable "instance_type" {
+  description = "EC2 instance type"
+  type        = string
+  default     = "t2.micro"
+}
+
+output "ec_ip_address" {
+  value = aws_instance.project_one_server.public_ip
 }
